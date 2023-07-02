@@ -1,0 +1,18 @@
+{
+  "limit": 100,
+  "DividedBy": {
+    "Fizz": 3,
+    "Buzz": 5,
+    "Rizz": 7,
+    "Jazz": 11
+  },
+  "Dividing": {
+    "Dizz": 120
+  },
+  "Primes": {
+    "Text": "Prizz",
+    "NextMultiples": [
+      3,5,7,11
+    ]
+  }
+}
