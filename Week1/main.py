@@ -52,6 +52,10 @@ def add_to_list(x, arr):
 
 
 def xor(arr, index, num):
+    """Xors an element in a list with a number
+    :param list[int] arr: The list to xor the element in
+    :param int index: The index of the element in the list to xor
+    :param int num: Then number to xor with"""
     arr[index] ^= num
 
 
@@ -140,6 +144,13 @@ def get_next_multiple(next_primes, number):
     return res
 
 
+def add_to(arr, index, add):
+    """Adds a value to an index in a list
+    :param list arr: The list to add to the element in
+    :param int index: The index of the element in the list
+    :param Any add: The value to add"""
+    arr[index] += add
+
 config_file = open("configuration.json", "r")
 configuration = json.load(config_file)
 limit = configuration["limit"]
@@ -150,26 +161,21 @@ primes_text = configuration["Primes"]["Text"]
 
 limit_find_primes = get_next_multiple(next_primes, limit)
 
-dividedByRemainders = {}
-
-for text, num in dividedBy.items():
-    cur = [text, ""]
-    dividedByRemainders[num] = cur
-
-dividingRemainders = {}
-
-for text, num in dividing.items():
-    cur = [text, ""]
-    dividingRemainders[num] = cur
-
 prime_text = [["", ""], [primes_text, ""]]
 primes, is_prime = find_primes(limit_find_primes)
+texts = [""] * (limit + 1)
+for text, num in dividedBy.items():
+    for mul in range(num, limit + 1, num):
+        texts[mul] += text
+for text, num in dividing.items():
+    for check in range(1, int(sqrt(num)) + 1):
+        if num % check == 0:
+            do = [add_to, do_nothing]
+            do[is_positive(check - limit)](texts, check, text)
+            do[is_positive(num // check - limit)](texts, num // check, text)
+
 for num in range(1, limit + 1):
-    text = ""
-    for mod, remainders in dividedByRemainders.items():
-        text += remainders[is_positive(num % mod)]
-    for mod, remainders in dividingRemainders.items():
-        text += remainders[is_positive(mod % num)]
+    text = texts[num]
     max_next_multiple = get_next_multiple(next_primes, num)
     second_parameter = [return_0, exists_value_between][is_prime[num]](primes, num + 1,
                                                                        max_next_multiple - 1)
