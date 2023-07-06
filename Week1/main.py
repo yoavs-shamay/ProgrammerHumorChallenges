@@ -55,7 +55,8 @@ def xor(arr, index, num):
     """Xors an element in a list with a number
     :param list[int] arr: The list to xor the element in
     :param int index: The index of the element in the list to xor
-    :param int num: Then number to xor with"""
+    :param int num: Then number to xor
+    """
     arr[index] ^= num
 
 
@@ -148,8 +149,10 @@ def add_to(arr, index, add):
     """Adds a value to an index in a list
     :param list arr: The list to add to the element in
     :param int index: The index of the element in the list
-    :param Any add: The value to add"""
+    :param Any add: The value to
+    """
     arr[index] += add
+
 
 config_file = open("configuration.json", "r")
 configuration = json.load(config_file)
