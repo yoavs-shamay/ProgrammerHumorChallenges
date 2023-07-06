@@ -9,6 +9,7 @@ def is_non_negative(x):
 
     :param int x: The number to check
     :return: 0 if the number is negative, 1 otherwise
+    :rtype: int
     """
     return (x // (abs(x) + 1)) + 1
 
@@ -16,14 +17,17 @@ def is_non_negative(x):
 def is_positive(x):
     """Returns 1 if the number is positive, 0 otherwise
     :param int x: The number to check
-    :return: 1 if the number is positive, 0 otherwise"""
+    :return: 1 if the number is positive, 0 otherwise
+    :rtype: int
+    """
     return is_non_negative(x - 1)
 
 
 def do_nothing(*args):
     """Does nothing
 
-    :param Any args: the arguments"""
+    :param Any args: the arguments
+    """
     pass
 
 
@@ -32,7 +36,8 @@ def mark_squares(sieve, r, limit):
 
     :param list[int] sieve: The sieve to change
     :param int r: The number to mark its square multiplies
-    :param int limit: The maximum number to change"""
+    :param int limit: The maximum number to change
+    """
     for i in range(r * r, limit + 1, r * r):
         sieve[i] = 0
 
@@ -94,6 +99,7 @@ def exists_value_between(arr, a, b):
     :param int a: The lower bound of the range
     :param int b: The upper bound of the range
     :return: 0 if there is no number between a and b in arr, 1 otherwise.
+    :rtype: int
     """
     low = 0
     high = len(arr) - 1
@@ -116,11 +122,18 @@ def return_0(*args):
 
     :param Any args: the parameters
     :returns: 0
-    :rtype: int"""
+    :rtype: int
+    """
     return 0
 
 
 def get_next_multiple(next_primes, number):
+    """Gets the next multiple of one of next_primes of number
+    :param list[int] next_primes: The list of next primes to check the next multiples of
+    :param int number: The number to find the next multiple of
+    :return: The next multiple of one of next_primes of number
+    :rtype: int
+    """
     res = INF
     for p in next_primes:
         res = min(res, number + p - number % p)
