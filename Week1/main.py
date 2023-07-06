@@ -12,11 +12,13 @@ def is_non_negative(x):
     """
     return (x // (abs(x) + 1)) + 1
 
+
 def is_positive(x):
     """Returns 1 if the number is positive, 0 otherwise
     :param int x: The number to check
     :return: 1 if the number is positive, 0 otherwise"""
     return is_non_negative(x - 1)
+
 
 def do_nothing(*args):
     """Does nothing
@@ -43,8 +45,10 @@ def add_to_list(x, arr):
     """
     arr.append(x)
 
+
 def xor(arr, index, num):
     arr[index] ^= num
+
 
 def find_primes(limit):
     """Returns all the primes until limit using the Sieve of Atkin
@@ -69,8 +73,8 @@ def find_primes(limit):
             n = 3 * x * x + y * y
             do[is_positive(n - limit)](sieve, n, xor_with_2[n % 12])
             n = 3 * x * x - y * y
-            do = [[do_nothing,xor],[do_nothing,do_nothing]]
-            do[is_positive(n - limit)][is_positive(x - y)](sieve,n, xor_with_3[n % 12])
+            do = [[do_nothing, xor], [do_nothing, do_nothing]]
+            do[is_positive(n - limit)][is_positive(x - y)](sieve, n, xor_with_3[n % 12])
     do = [do_nothing, mark_squares]
     for r in range(5, int(sqrt(limit)) + 1):
         do[sieve[r]](sieve, r, limit)
@@ -116,6 +120,13 @@ def return_0(*args):
     return 0
 
 
+def get_next_multiple(next_primes, number):
+    res = INF
+    for p in next_primes:
+        res = min(res, number + p - number % p)
+    return res
+
+
 config_file = open("configuration.json", "r")
 configuration = json.load(config_file)
 limit = configuration["limit"]
@@ -124,9 +135,7 @@ dividing = configuration["Dividing"]
 next_primes = configuration["Primes"]["NextMultiples"]
 primes_text = configuration["Primes"]["Text"]
 
-limit_find_primes = INF
-for p in next_primes:
-    limit_find_primes = min(limit_find_primes, limit + p - limit % p)
+limit_find_primes = get_next_multiple(next_primes, limit)
 
 dividedByRemainders = {}
 
@@ -148,9 +157,7 @@ for num in range(1, limit + 1):
         text += remainders[is_positive(num % mod)]
     for mod, remainders in dividingRemainders.items():
         text += remainders[is_positive(mod % num)]
-    max_next_multiple = INF
-    for p in next_primes:
-        max_next_multiple = min(max_next_multiple, num + p - num % p)
+    max_next_multiple = get_next_multiple(next_primes, num)
     second_parameter = [return_0, exists_value_between][is_prime[num]](primes, num + 1,
                                                                        max_next_multiple - 1)
     text += prime_text[is_prime[num]][second_parameter]
