@@ -4,6 +4,20 @@ import json
 INF = 1e9
 
 
+def is_non_negative(x):
+    """Returns 0 if the number is negative and 1 otherwise
+
+    :param int x: The number to check
+    :return: 0 if the number is negative, 1 otherwise
+    """
+    return (x // (abs(x) + 1)) + 1
+
+def is_positive(x):
+    """Returns 1 if the number is positive, 0 otherwise
+    :param int x: The number to check
+    :return: 1 if the number is positive, 0 otherwise"""
+    return is_non_negative(x - 1)
+
 def do_nothing(*args):
     """Does nothing
 
@@ -29,6 +43,8 @@ def add_to_list(x, arr):
     """
     arr.append(x)
 
+def xor(arr, index, num):
+    arr[index] ^= num
 
 def find_primes(limit):
     """Returns all the primes until limit using the Sieve of Atkin
@@ -46,15 +62,15 @@ def find_primes(limit):
     xor_with_3 = [0] * 12
     xor_with_3[11] = 1
     for x in range(1, int(sqrt(limit)) + 1):
-        for y in range(1, int(sqrt(max(0, limit - 4 * x * x))) + 1):
+        for y in range(1, int(sqrt(limit))):
             n = 4 * x * x + y * y
-            sieve[n] ^= xor_with_1[n % 12]
-        for y in range(1, int(sqrt(max(0, limit - 3 * x * x))) + 1):
+            do = [xor, do_nothing]
+            do[is_positive(n - limit)](sieve, n, xor_with_1[n % 12])
             n = 3 * x * x + y * y
-            sieve[n] ^= xor_with_2[n % 12]
-        for y in range(x - 1, ceil(sqrt(max(1, min(3 * x * x - limit, x * x)))) - 1, -1):
+            do[is_positive(n - limit)](sieve, n, xor_with_2[n % 12])
             n = 3 * x * x - y * y
-            sieve[n] ^= xor_with_3[n % 12]
+            do = [[do_nothing,xor],[do_nothing,do_nothing]]
+            do[is_positive(n - limit)][is_positive(x - y)](sieve,n, xor_with_3[n % 12])
     do = [do_nothing, mark_squares]
     for r in range(5, int(sqrt(limit)) + 1):
         do[sieve[r]](sieve, r, limit)
@@ -65,15 +81,6 @@ def find_primes(limit):
     for i in range(5, limit + 1):
         do[sieve[i]](i, primes)
     return primes, sieve
-
-
-def is_non_negative(x):
-    """Returns 0 if the number is negative and 1 otherwise
-
-    :param x: The number to check
-    :return: 0 if the number is negative, 1 otherwise
-    """
-    return (x // (abs(x) + 1)) + 1
 
 
 def exists_value_between(arr, a, b):
@@ -124,15 +131,13 @@ for p in next_primes:
 dividedByRemainders = {}
 
 for text, num in dividedBy.items():
-    cur = [""] * num
-    cur[0] = text
+    cur = [text, ""]
     dividedByRemainders[num] = cur
 
 dividingRemainders = {}
 
 for text, num in dividing.items():
-    cur = [""] * num
-    cur[0] = text
+    cur = [text, ""]
     dividingRemainders[num] = cur
 
 prime_text = [["", ""], [primes_text, ""]]
@@ -140,14 +145,14 @@ primes, is_prime = find_primes(limit_find_primes)
 for num in range(1, limit + 1):
     text = ""
     for mod, remainders in dividedByRemainders.items():
-        text += remainders[num % mod]
+        text += remainders[is_positive(num % mod)]
     for mod, remainders in dividingRemainders.items():
-        text += remainders[mod % num]
+        text += remainders[is_positive(mod % num)]
     max_next_multiple = INF
     for p in next_primes:
         max_next_multiple = min(max_next_multiple, num + p - num % p)
     second_parameter = [return_0, exists_value_between][is_prime[num]](primes, num + 1,
                                                                        max_next_multiple - 1)
     text += prime_text[is_prime[num]][second_parameter]
-    output = [num] + [text] * len(text)
-    print(output[len(text)], num)
+    output = [num, text]
+    print(output[is_positive(len(text))], num)
