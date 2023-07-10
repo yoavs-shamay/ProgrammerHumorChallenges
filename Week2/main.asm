@@ -7,6 +7,7 @@
         extern printNumber
         extern newLine
         extern printSpace
+        extern printMatrix
 
         section .data
         length DD 100

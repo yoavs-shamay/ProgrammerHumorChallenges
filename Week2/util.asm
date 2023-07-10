@@ -13,16 +13,25 @@
                 space DB 32, 0
 
                 section .bss
-                numberString RESB 33
+                numberString RESB 100
                 originalOutput RESD 1
                 i RESD 1
+                i2 RESD 1
                 j RESD 1
                 temp1 RESD 1
                 tempString RESB 100
                 matrix RESD 1
                 n RESD 1
+                negative RESD 1
 
                 section .text
+makeNegative:   mov DWORD [negative], 1
+                jmp l1PostCompare
+addMinus:       mov BYTE [numberString], '-'
+                mov DWORD [negative], 1
+                inc r8d
+                neg DWORD [temp1]
+                jmp postAddMinus
 read:           mov [originalOutput], eax
                 mov ecx, eax
                 mov edx, length
@@ -48,6 +57,7 @@ exit:           mov eax, 1
 
 readNumber:     mov eax, numberString
                 call read
+                mov DWORD [negative], 0
                 mov DWORD [i], 0
                 mov ebx, numberString
                 mov eax, 0
@@ -57,25 +67,33 @@ l1:                     mov ecx, 10
                         mul ecx
                         mov edx, [ebx]
                         movsx edx, dl
+                        cmp edx, '-'
+                        je makeNegative
                         add eax, edx
                         sub eax, 48 ;'0'
-                        inc DWORD [i]
+l1PostCompare:          inc DWORD [i]
                         inc ebx
                         cmp BYTE [ebx], 0
                         jne l1
 ;               }
-                mov ebx, [i]
+                cmp DWORD [negative], 1
+                jne postNegate
+                neg eax
+postNegate:     mov ebx, [i]
                 ret
 
-printNumber:    mov r8d, numberString
+printNumber:    mov DWORD [negative], 0
                 mov [temp1], eax
                 call getDigitCount
                 mov [i], eax
-                mov eax, [temp1]
-                add r8d, [i]
+                mov r8d, numberString
+                cmp DWORD [temp1], 0
+                jl addMinus
+postAddMinus:   add r8d, [i]
                 mov BYTE [r8d], 0
                 dec r8d
                 dec DWORD [i]
+                mov eax, [temp1]
 ;               {
 l2:                     mov edx, 0
                         mov ecx, 10
@@ -98,7 +116,7 @@ l3:                 mov edx, 0
                     div ecx
                     inc ebx
                     cmp eax, 0
-                    jg l3
+                    jne l3
 ;               }
                 mov eax, ebx
                 ret
@@ -126,7 +144,7 @@ printMatrix:    mov [matrix], eax
                 mov edx, 4
                 mul edx
                 mov [n], eax
-                mov DWORD [i], 0
+                mov DWORD [i2], 0
 ;               {
 l5:                 mov DWORD [j], 0
 ;                   {
@@ -135,14 +153,25 @@ l6:                     mov eax, [matrix]
                         call printNumber
                         call printSpace
                         add DWORD [j], 4
+                        add DWORD [matrix], 4
                         mov eax, [n]
                         cmp [j], eax
-                        jne l2
+                        jne l6
 ;                   }
                 call newLine
-                add DWORD [i], 4
+                add DWORD [i2], 4
                 mov eax, [n]
-                cmp [i], eax
-                jne l1
+                cmp [i2], eax
+                jne l5
+;           }
+            ret
+
+pow:        mov ecx, eax
+            mov eax, 1
+;           {
+l7:             mul ecx
+                dec ebx
+                cmp  ebx, 0
+                jne l7
 ;           }
             ret
