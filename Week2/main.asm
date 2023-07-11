@@ -47,6 +47,7 @@ l2:                     call readNumber
                 cmp  [i], eax
                 jne l1
 ;       }
+        call newLine
         mov eax, adj
         mov ebx, [n]
         call solve

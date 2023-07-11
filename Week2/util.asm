@@ -4,14 +4,15 @@
                 global readNumber
                 global printNumber
                 global newLine
-                global printSpace
+                global printComma
                 global printMatrix
                 global pow
+                global printNode
 
                 section .data
                 length DD 100
                 nextLine DB 10,0
-                space DB 32, 0
+                comma DB ',', 0
                 zeroStr DB '0',0
 
                 section .bss
@@ -26,6 +27,7 @@
                 n RESD 1
                 m RESD 1
                 negative RESD 1
+                nodeString RESB 2
 
                 section .text
 makeNegative:   mov DWORD [negative], 1
@@ -144,7 +146,7 @@ newLine:        mov eax, nextLine
                 call print
                 ret
 
-printSpace:     mov eax, space
+printComma:     mov eax, comma
                 call print
                 ret
 
@@ -166,7 +168,7 @@ l5:                 mov DWORD [j], 0
 l6:                     mov eax, [matrix]
                         mov eax, [eax]
                         call printNumber
-                        call printSpace
+                        call printComma
                         add DWORD [j], 4
                         add DWORD [matrix], 4
                         mov eax, [m]
@@ -189,4 +191,11 @@ l7:             mul ecx
                 cmp  ebx, 0
                 jne l7
 ;           }
+            ret
+
+printNode:  mov [nodeString], al
+            add BYTE [nodeString], 'a'
+            mov BYTE nodeString[1], 0
+            mov eax, nodeString
+            call print
             ret

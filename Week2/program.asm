@@ -2,14 +2,17 @@
                 extern printMatrix
                 extern pow
                 extern printNumber
-                extern printSpace
+                extern printComma
                 extern newLine
                 extern exit
+                extern printNode
+                extern print
 
                 section .data
                 infinity DD 1000000 ;1e6
                 dp times 10240 DD 1000000 ;25*2^25, temporarily less
                 nextTSP times 10240 DD -1 ;25*2^25
+                invalidMessage DB "No path exists", 0
 
                 section .bss
                 distances: RESD 625 ;25*25
@@ -26,11 +29,17 @@
                 temp2 RESD 1
                 temp3 RESD 1
                 temp4 RESD 1
+                start RESD 1
+                tempArr RESD 25
 
                 section .text
 setToInfinity:  mov esi, [infinity]
                 mov DWORD [ecx], esi
                 jmp l1PostCompare
+stop:           mov eax, invalidMessage
+                call print
+                call newLine
+                call exit
 solve:          mov [n], ebx
                 mov [adj], eax
 
@@ -111,15 +120,6 @@ l4PostCompare:              add DWORD [j], 4
                     cmp [k], eax
                     jne l2
 ;               }
-                mov eax, distances
-                mov ebx, [n]
-                mov ecx, [n]
-                call printMatrix
-                mov eax, prevShortestPath
-                mov ebx, [n]
-                mov ecx, [n]
-                call printMatrix
-                call newLine
 tsp:            mov eax, 2
                 mov ebx, [n]
                 call pow
@@ -194,8 +194,6 @@ l8End:                      inc DWORD [k]
                 cmp [i], eax
                 jne l6
 ;           }
-            call newLine
-            call newLine
             mov ebx, [infinity]
             mov ecx, [twoPowN]
             dec ecx
@@ -223,23 +221,64 @@ l9PostCompare:  inc DWORD [i]
                 cmp [i], eax
                 jne l9
 ;           } 
-            mov [temp1], ebx
-            mov [temp2], esi
-            mov eax, [temp1]
-            call printNumber
-            call printSpace
-            mov eax, [temp2]
-            call printNumber
+            mov [temp3], ebx
+            cmp ebx, [infinity]
+            je stop
+            mov [start], esi
+            mov eax, [start]
+            call printNode
+findPath:   mov ebx, [start]
+            mov esi, [twoPowN]
+            dec esi
+            mov DWORD [i], 0
+;           {
+l10:            mov ecx, ebx
+                mov edi, 1
+                shl edi, cl
+                xor esi, edi
+                mov eax, esi
+                mul DWORD [n]
+                add eax, ebx
+                mov edx, 4
+                mul edx
+                add eax, nextTSP
+                mov ecx, [eax]
+                mov r9d, ecx
+                mov r8d, tempArr
+;               {
+l11:                mov [r8d], ecx
+                    mov eax, ebx
+                    mul DWORD [n]
+                    add eax, ecx
+                    mov edx, 4
+                    mul edx
+                    add eax, prevShortestPath
+                    mov ecx, [eax]
+                    add r8d, 4
+                    cmp ebx, ecx
+                    jne l11
+;               }
+                mov [temp1], ebx
+                mov [temp2], ecx
+;               {
+l12:                sub r8d, 4
+                    call printComma
+                    mov eax, [r8d]
+                    call printNode
+                    cmp r8d, tempArr
+                    jne l12
+;               }
+                mov ebx, [temp1]
+                mov ecx, [temp2]
+                mov ebx, r9d
+                inc DWORD [i]
+                mov r9d, [n]
+                dec r9d
+                cmp [i], r9d
+                jne l10
+;           }
             call newLine
-            call newLine
-            mov eax, dp
-            mov ebx, [twoPowN]
-            mov ecx, [n]
-            call printMatrix
+            mov eax, [temp3]
+            call printNumber
             call newLine
             ret
-
-
-                    
-
-
