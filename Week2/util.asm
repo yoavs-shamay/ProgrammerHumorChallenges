@@ -6,11 +6,13 @@
                 global newLine
                 global printSpace
                 global printMatrix
+                global pow
 
                 section .data
                 length DD 100
                 nextLine DB 10,0
                 space DB 32, 0
+                zeroStr DB '0',0
 
                 section .bss
                 numberString RESB 100
@@ -22,6 +24,7 @@
                 tempString RESB 100
                 matrix RESD 1
                 n RESD 1
+                m RESD 1
                 negative RESD 1
 
                 section .text
@@ -32,6 +35,7 @@ addMinus:       mov BYTE [numberString], '-'
                 inc r8d
                 neg DWORD [temp1]
                 jmp postAddMinus
+
 read:           mov [originalOutput], eax
                 mov ecx, eax
                 mov edx, length
@@ -82,13 +86,18 @@ l1PostCompare:          inc DWORD [i]
 postNegate:     mov ebx, [i]
                 ret
 
-printNumber:    mov DWORD [negative], 0
+printNumber:    cmp eax, 0
+                jne printNumberAct
+                mov eax, zeroStr
+                call print
+                ret
+printNumberAct: mov DWORD [negative], 0
                 mov [temp1], eax
                 call getDigitCount
                 mov [i], eax
                 mov r8d, numberString
                 cmp DWORD [temp1], 0
-                jl addMinus
+                jl addMinus ;TODO do before get digit count
 postAddMinus:   add r8d, [i]
                 mov BYTE [r8d], 0
                 dec r8d
@@ -140,10 +149,16 @@ printSpace:     mov eax, space
                 ret
 
 printMatrix:    mov [matrix], eax
-                mov eax, ebx
+                mov [n], ebx
+                mov [m], ecx
+                mov eax, [n]
                 mov edx, 4
                 mul edx
                 mov [n], eax
+                mov eax, [m]
+                mov edx, 4
+                mul edx
+                mov [m], eax
                 mov DWORD [i2], 0
 ;               {
 l5:                 mov DWORD [j], 0
@@ -154,7 +169,7 @@ l6:                     mov eax, [matrix]
                         call printSpace
                         add DWORD [j], 4
                         add DWORD [matrix], 4
-                        mov eax, [n]
+                        mov eax, [m]
                         cmp [j], eax
                         jne l6
 ;                   }

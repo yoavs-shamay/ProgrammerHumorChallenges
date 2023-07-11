@@ -19,7 +19,6 @@
         i RESD 1
         j RESD 1
 
-
         section .text
 _start: call readNumber
         mov [n], eax
