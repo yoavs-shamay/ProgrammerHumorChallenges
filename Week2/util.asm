@@ -99,7 +99,7 @@ printNumberAct: mov DWORD [negative], 0
                 mov [i], eax
                 mov r8d, numberString
                 cmp DWORD [temp1], 0
-                jl addMinus ;TODO do before get digit count
+                jl addMinus
 postAddMinus:   add r8d, [i]
                 mov BYTE [r8d], 0
                 dec r8d

@@ -9,9 +9,7 @@
                 extern print
 
                 section .data
-                infinity DD 1000000 ;1e6
-                dp times 10240 DD 1000000 ;25*2^25, temporarily less
-                nextTSP times 10240 DD -1 ;25*2^25
+                infinity DD 1000000000 ;1e9
                 invalidMessage DB "No path exists", 0
 
                 section .bss
@@ -31,6 +29,8 @@
                 temp4 RESD 1
                 start RESD 1
                 tempArr RESD 25
+                dp RESD 402653184 ;25*2^25, temporarily 23*2^23
+                nextTSP RESD 402653184 ;25*2^25
 
                 section .text
 setToInfinity:  mov esi, [infinity]
@@ -143,7 +143,10 @@ l5:                 mov DWORD [eax], 0
 ;               {
 l6:                 mov DWORD [j], 0
 ;                   {
-l7:                     mov DWORD [k], 0
+l7:                     mov r8d, [infinity]
+                        mov [esi],  r8d
+                        mov DWORD [edi], -1
+                        mov DWORD [k], 0
 ;                       {
 l8:                         mov ebx, 1
                             mov ecx, [k]
