@@ -1,8 +1,9 @@
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-public class GenerateFile implements Server.ServerMethod
+public class GenerateFile implements ServerMethod
 {
+    private static GenerateFile instance = null;
     private static int binarySearch(ArrayList<Integer> arr, int val)
     {
         int low = 0, high = arr.size() - 1;
@@ -124,5 +125,13 @@ public class GenerateFile implements Server.ServerMethod
         byte[] contentByteArr = new byte[content.size()];
         for (int i = 0; i < content.size(); i++) contentByteArr[i] = content.get(i);
         return contentByteArr;
+    }
+
+    public static ServerMethod getInstance() {
+        if (instance == null)
+        {
+            instance = new GenerateFile();
+        }
+        return instance;
     }
 }

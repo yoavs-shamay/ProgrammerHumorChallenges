@@ -85,7 +85,7 @@ body
 .output-label
 {
     font-size: 5vmin;
-    text-decoration: underline dashed;
+    text-decoration: underline overline;
 }
 .output-div
 {
@@ -101,5 +101,4 @@ body
 {
     height:15vh;
     width:40vw;
-    background-color: darkgreen;
 }

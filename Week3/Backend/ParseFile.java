@@ -1,7 +1,8 @@
 import java.util.*;
 
-public class ParseFile implements Server.ServerMethod
+public class ParseFile implements ServerMethod
 {
+    private static ParseFile instance = null;
     private static int intFromBits(byte[] arr, int start, int bitOffset, int lengthInBits)
     {
         int res = 0;
@@ -67,5 +68,13 @@ public class ParseFile implements Server.ServerMethod
         int z = (size / x) / y;
         String res = String.valueOf(date) + " " + creatorName + " " + String.valueOf(x) + " " + String.valueOf(y) + " " + String.valueOf(z) + " " + matrix;
         return res.getBytes("utf-8");
+    }
+
+    public static ServerMethod getInstance() {
+        if (instance == null)
+        {
+            instance = new ParseFile();
+        }
+        return instance;
     }
 }

@@ -45,5 +45,6 @@ body
 .paragraph
 {
     text-align: center;
-    font-size: 3vmin
+    font-size: 3vmin;
+    overflow-wrap: break-word;
 }
