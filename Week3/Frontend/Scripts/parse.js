@@ -2,7 +2,7 @@ function parse()
 {
     var file = document.getElementById("file-input").files[0];
     var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "https://20.115.123.241:1795/parse", true);
+    xhttp.open("POST", "http://20.115.123.241:1795/parse", true);
     xhttp.setRequestHeader("Content-Type", "text/plain");
     xhttp.send(file);
     xhttp.onreadystatechange = function() {

@@ -33,7 +33,7 @@ function convert()
     }
     matrixString = matrixString.trim();
     var date = Math.floor(Date.now() / 1000);
-    var url = "https://20.115.123.241:1795/generate?creatorName=" + name + "&creationDate=" + date.toString() + "&x=" + x.toString() + "&y=" + y.toString() + "&z=" + z.toString();
+    var url = "http://20.115.123.241:1795/generate?creatorName=" + name + "&creationDate=" + date.toString() + "&x=" + x.toString() + "&y=" + y.toString() + "&z=" + z.toString();
     var xhttp = new XMLHttpRequest();
     xhttp.open("POST", url, true);
     xhttp.setRequestHeader("Content-Type", "text/plain");
