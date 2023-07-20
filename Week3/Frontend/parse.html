@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Parse</title>
+        <link href="Styles/parse.css" rel="stylesheet" type="text/css" />
+        <script src="Scripts/parse.js"></script>
+    </head>
+    <body>
+        <div class="navigation">
+            <a href="convert.html" class="nav-link random">Convert</a>
+            <a href="parse.html" class="nav-link random">Parse</a>    
+            <a href="documentation.html" class="nav-link random">Documentation</a>
+        </div>
+        <div class="main">
+            <h1 class="title random">Parse</h1>
+            <div class="parser">
+                <div class="input">
+                    <div class="input-div"><label class="input-label random">Upload file:</label><input class="file-input random" id="file-input" type="file" /></div>
+                    <button class="parse-button random" id="parse-button" onclick="parse()">Parse</button>
+                </div>
+                <div class="output">
+                    <div class="output-div"><label class="output-label random">Name:</label><input class="output-input" type="text" disabled id="name-output" /></div>
+                    <div class="output-div"><label class="output-label random">Date:</label><input class="output-input" type="text" disabled id="date-output" /></div>     
+                    <div class="output-div"><label class="output-label random">Array:</label><textarea class="matrix-output" disabled id="matrix-output"></textarea></div>
+                </div>
+            </div>
+        </div>
+        <script src="Scripts/randomize-color.js"></script>
+    </body>
+</html>

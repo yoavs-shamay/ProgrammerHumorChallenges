@@ -1,0 +1,105 @@
+body
+{
+    display: flex;
+    flex-flow: column;
+}
+
+.navigation
+{
+    background-color: red;
+    overflow: hidden;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    height: 25vh;
+    flex-direction: row;
+    align-items: center;
+}
+
+.nav-link
+{
+    font-size: 8vmin;
+    text-decoration: underline dashed;
+}
+
+.main
+{
+    flex: 1 1 auto;
+    background-image: url("../Images/background.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: 30px;
+    z-index: 1;
+    width: 100%;
+}
+
+.title
+{
+    font-size: 15vmin;
+    text-align: center;
+    color: white;
+}
+.parser
+{
+    display:flex;
+    flex-direction: row;
+    align-items: flex-start;
+    height: 100%;
+    justify-content: space-around;
+}
+.input
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+}
+.input-div
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+}
+.input-label
+{
+    font-size: 5vmin;
+    text-decoration: underline dotted;
+}
+.parse-button
+{
+    height: 5vh;
+    width: 20vw;
+    font-size: 3vmin;
+    margin-top: 3vh;
+}
+.output
+{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    height: 100%;
+}
+.output-label
+{
+    font-size: 5vmin;
+    text-decoration: underline dashed;
+}
+.output-div
+{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+}
+.output-input
+{
+    height: 5vmin;
+}
+.matrix-output
+{
+    height:15vh;
+    width:40vw;
+    background-color: darkgreen;
+}

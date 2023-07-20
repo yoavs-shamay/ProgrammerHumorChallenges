@@ -37,6 +37,7 @@ public class Server {
                 bodyReader.close();
                 byte[] resp = method.handle(queryParams, body);
                 exchange.getResponseHeaders().set("Content-Type","text/plain");
+                exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
                 exchange.sendResponseHeaders(200, resp.length);
                 OutputStream respOS = exchange.getResponseBody();
                 respOS.write(resp);
@@ -44,6 +45,7 @@ public class Server {
             }
             catch (Exception err)
             {
+                exchange.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
                 exchange.sendResponseHeaders(500, 0);
                 OutputStream respOS = exchange.getResponseBody();
                 StringWriter stringWriter = new StringWriter();

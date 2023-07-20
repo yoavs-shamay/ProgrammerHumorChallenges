@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Documentation</title>
+        <link href="Styles/documentation.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div class="navigation">
+            <a href="convert.html" class="nav-link random">Convert</a>
+            <a href="parse.html" class="nav-link random">Parse</a>    
+            <a href="documentation.html" class="nav-link random">Documentation</a>
+        </div>
+        <div class="main">
+            <h1 class="title random">Documentation</h1>
+            <p class="paragraph random">
+                The file format saves a 3d array in binary. <br />
+                It first contains the following number: (len- 1) * 91 * 91 + x * 91 + y, similar to saving those 3 numbers in base-91 <br />
+                len = the length of the creator's name <br />
+                x = The index of the size of the first dimension of the array among all of the divisors of the total matrix size. <br />
+                y = The index of the size of the second dimension of the array among all of the divisors of the total matrix size. <br />
+                Then there are len times 7 bits for the creator's name. Then it is completed with 0's to a byte <br />
+                Then there are 4 bytes for each number in the 3d array <br />
+                Each number is saved this way: if it is among multiple bytes, the first byte contains the least significant bits and the last byte the most significant. <br />
+                It is also this way when encoding the header - It treats it as a sequence of bits, from the least significant to the most significant, then divides it into bytes,
+                The first byte contains the least significant bits and the last byte the most significant. <br />
+            </p>
+        </div>
+        <script src="Scripts/randomize-color.js"></script>
+    </body>
+</html>

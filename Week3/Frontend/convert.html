@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Convert</title>
+        <link href="Styles/convert.css" rel="stylesheet" type="text/css" />
+        <script src="Scripts/convert.js"></script>
+    </head>
+    <body>
+        <div class="navigation">
+            <a href="convert.html" class="nav-link random">Convert</a>
+            <a href="parse.html" class="nav-link random">Parse</a>    
+            <a href="documentation.html" class="nav-link random">Documentation</a>
+        </div>
+        <div class="main">
+            <h1 class="title random">Convert</h1>
+            <div class="converter">
+                <div class="input-div"><label class="input-label random">Array:</label><textarea class="matrix-input random" id="matrix-input"></textarea></div>
+                <div class="name input-div"><label class="input-label random">Author:</label><input type="text" class="input random" id="name-input" /></div>
+                <div class="file-name input-div"><label class="input-label random">File Name:</label><input type="text" class="input random" id="file-name-input" /></div>
+                <button class="convert-button random" id="convert-button" onclick="convert()">Convert</button>
+            </div>
+        </div>
+        <script src="Scripts/randomize-color.js"></script>
+    </body>
+</html>
