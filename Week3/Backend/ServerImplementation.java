@@ -8,7 +8,7 @@ public class ServerImplementation implements Server{
     private HttpServer server;
     public ServerImplementation(int port, Map<String, ServerMethod> methods) throws IOException
     {
-        server = HttpServer.create(new InetSocketAddress("localhost", port), 0);
+        server = HttpServer.create(new InetSocketAddress("20.115.123.241", port), 0);
         for (Map.Entry<String, ServerMethod> entry : methods.entrySet())
         {
             addMethod(entry.getKey(), entry.getValue());

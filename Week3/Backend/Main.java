@@ -6,7 +6,7 @@ public class Main {
         ServerMethodFactory factory = new ServerMethodFactory();
         ServerMethod generateFile = factory.createServerMethod("generate");
         ServerMethod parseFile = factory.createServerMethod("parse");
-        ServerBuilder builder = new ServerBuilder(8000);
+        ServerBuilder builder = new ServerBuilder(1795);
         builder.addMethod("generate", generateFile);
         builder.addMethod("parse", parseFile);
         Server server = builder.build();
